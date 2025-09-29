@@ -1,0 +1,29 @@
+{
+  "name": "repair-knowledge-system-backend",
+  "version": "1.0.0",
+  "description": "设备维修知识管理系统后端",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "echo \"No build step required\"",
+    "db:generate": "drizzle-kit generate:sqlite",
+    "db:migrate": "wrangler d1 migrations apply repair-knowledge-db-dev --local",
+    "db:studio": "wrangler d1 execute repair-knowledge-db-dev --local --command=\"SELECT * FROM sqlite_master WHERE type='table';\"",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.3",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.29.3",
+    "hono": "^3.11.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231121.0",
+    "@types/bcryptjs": "^2.4.6",
+    "better-sqlite3": "^9.2.2",
+    "drizzle-kit": "^0.20.9",
+    "wrangler": "^3.22.1"
+  }
+}

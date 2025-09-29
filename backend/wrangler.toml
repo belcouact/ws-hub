@@ -1,0 +1,35 @@
+name = "repair-knowledge-system"
+main = "src/index.ts"
+compatibility_date = "2023-12-01"
+
+# D1 数据库配置
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "repair-knowledge-db"
+# database_id = "your-database-id-here"
+
+# R2 存储配置
+# [[r2_buckets]]
+# binding = "ATTACHMENTS"
+# bucket_name = "repair-knowledge-attachments"
+# preview_bucket_name = "repair-knowledge-attachments-preview"
+
+# KV 存储配置
+# [[kv_namespaces]]
+# binding = "CACHE"
+# id = "your-kv-id-here"
+# preview_id = "your-kv-preview-id-here"
+
+# 环境变量
+[env.production.vars]
+JWT_SECRET = "your-jwt-secret-here"
+GLM_API_KEY = "your-glm-api-key-here"
+AI_DAILY_LIMIT = "10"
+NODE_ENV = "production"
+
+# 开发环境变量
+[env.development.vars]
+JWT_SECRET = "dev-jwt-secret"
+GLM_API_KEY = "dev-glm-api-key"
+AI_DAILY_LIMIT = "100"
+NODE_ENV = "development"
