@@ -112,7 +112,8 @@ const props = withDefaults(defineProps<Props>(), {
   tip: '',
   showPreview: true,
   maxSize: 10, // 默认10MB
-  uploadUrl: '/api/v1/upload',
+  // default upload URL should match backend's reports upload endpoint
+  uploadUrl: '/api/reports/upload',
   uploadData: () => ({})
 })
 
