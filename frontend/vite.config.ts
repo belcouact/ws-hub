@@ -16,22 +16,17 @@ export default defineConfig({
         description: '收集、整理和利用维修报告，提供AI辅助分析',
         theme_color: '#409EFF',
         background_color: '#ffffff',
+        // use existing assets in the project (vite.svg and favicon.ico) to avoid missing files
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: '/vite.svg',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/svg+xml'
           },
           {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
+            src: '/favicon.ico',
+            sizes: '64x64',
+            type: 'image/x-icon'
           }
         ]
       },
@@ -64,10 +59,12 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
+      // forward /api/* to backend as-is. Backend mounts routes under /api so do not strip the prefix.
       '/api': {
         target: 'http://localhost:8787',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        // rewrite must return a string; returning the original path preserves the /api prefix
+        rewrite: (path) => path,
       }
     }
   }

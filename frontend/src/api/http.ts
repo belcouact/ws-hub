@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user'
 
 // 创建axios实例
 const http: AxiosInstance = axios.create({
-  baseURL: '/api/v1',
+  baseURL: '/api',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json'
@@ -31,23 +31,22 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data
-    
-    // 如果接口返回的状态码不是200，说明接口请求异常
-    if (res.code !== 200) {
-      ElMessage.error(res.message || '系统错误')
-      
-      // 处理特定错误码
-      if (res.code === 401) {
-        // 未授权，清除用户信息并跳转到登录页
-        const userStore = useUserStore()
-        userStore.logout()
-        window.location.href = '/login'
+
+    // Backend responses use { success: boolean, message: string, data: any }
+    if (res && typeof res === 'object') {
+      if (res.success === false) {
+        ElMessage.error(res.message || '系统错误')
+
+        // handle auth failure when backend returns 401 status via error handler below
+        return Promise.reject(new Error(res.message || '系统错误'))
       }
-      
-      return Promise.reject(new Error(res.message || '系统错误'))
+
+      // when success true, return data directly
+      return res.data
     }
-    
-    return res.data
+
+    // if response shape is unexpected, just return response.data
+    return response.data
   },
   (error) => {
     // 处理HTTP错误
