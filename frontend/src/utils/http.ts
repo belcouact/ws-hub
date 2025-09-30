@@ -3,9 +3,14 @@ import { ElMessage } from 'element-plus'
 import router from '@/router'
 
 // 创建axios实例
+const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/api'
+
+if (import.meta.env.PROD && API_BASE.startsWith('/api')) {
+  console.warn('[WARN] VITE_API_BASE is not set. Requests will be sent to the site origin + /api. Set VITE_API_BASE in Cloudflare Pages environment variables to your backend origin (e.g. https://<your-worker>.workers.dev/api).')
+}
+
 const http: AxiosInstance = axios.create({
-  // Backend routes are mounted under /api
-  baseURL: '/api',
+  baseURL: API_BASE,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

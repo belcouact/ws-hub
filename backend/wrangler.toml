@@ -26,6 +26,10 @@ JWT_SECRET = "your-jwt-secret-here"
 GLM_API_KEY = "your-glm-api-key-here"
 AI_DAILY_LIMIT = "10"
 NODE_ENV = "production"
+# FRONTEND_ORIGIN should be set to your deployed frontend origin (Cloudflare Pages URL)
+# Example: FRONTEND_ORIGIN = "https://ws-hub.pages.dev"
+# You can also set this in the Cloudflare dashboard as a production environment variable.
+# FRONTEND_ORIGIN = "https://your-pages-site.pages.dev"
 
 # 开发环境变量
 [env.development.vars]

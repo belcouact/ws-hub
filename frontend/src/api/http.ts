@@ -3,8 +3,16 @@ import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 
 // 创建axios实例
+// Use Vite env var VITE_API_BASE when provided; fallback to '/api'
+const API_BASE = (import.meta.env.VITE_API_BASE as string) || '/api'
+
+// Warn in production if VITE_API_BASE wasn't provided and the app will try to call the pages origin
+if (import.meta.env.PROD && API_BASE.startsWith('/api')) {
+  console.warn('[WARN] VITE_API_BASE is not set. Requests will be sent to the site origin + /api (e.g. https://yoursite.pages.dev/api). Set VITE_API_BASE in Cloudflare Pages environment variables to your backend origin (e.g. https://<your-worker>.workers.dev/api).')
+}
+
 const http: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json'

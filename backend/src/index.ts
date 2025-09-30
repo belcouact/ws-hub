@@ -19,8 +19,19 @@ app.use('*', logger())
 app.use('*', prettyJSON())
 app.use('*', timing())
 app.use('*', secureHeaders())
+// Configure CORS origins. Allow local dev by default and include FRONTEND_ORIGIN if set in environment.
+const allowedOrigins: string[] = [
+  'http://localhost:3000',
+  'http://localhost:5173'
+]
+
+// In production you can set FRONTEND_ORIGIN in wrangler.toml or Cloudflare dashboard
+if (process.env.FRONTEND_ORIGIN) {
+  allowedOrigins.push(process.env.FRONTEND_ORIGIN)
+}
+
 app.use('*', cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173'], // 前端开发服务器地址
+  origin: allowedOrigins,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
 }))
